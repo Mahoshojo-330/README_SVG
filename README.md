@@ -1,4 +1,4 @@
-# Fancy README
+# README SVG set
 
 A small, dependency-free browser tool for creating CRT-style terminal graphics for README files.
 
