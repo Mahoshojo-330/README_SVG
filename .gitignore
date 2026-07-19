@@ -1,1 +1,30 @@
-test/*
+# Project scratch files
+terminal/test/
+
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors and IDEs
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build and test output
+dist/
+build/
+coverage/
+
+# Local environment files
+.env
+.env.*
+!.env.example
