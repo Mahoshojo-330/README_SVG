@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Generate a self-contained CRT terminal SVG for a README."
+    />
+    <title>Terminal Studio // README Signal Generator</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="eyebrow">TERMINAL_STUDIO // README_SIGNAL_GENERATOR</div>
+        <h1>Generate a terminal signal.</h1>
+        <p>
+          Type a few lines, preview the CRT treatment, and export a standalone SVG for a README,
+          project page, or status panel.
+        </p>
+      </header>
+
+      <main class="generator-grid">
+        <section class="preview-panel" aria-labelledby="previewHeading">
+          <div class="panel-heading">
+            <h2 id="previewHeading">LIVE_PREVIEW</h2>
+            <span>1200 × 500 SVG</span>
+          </div>
+
+          <div class="preview-stage" id="previewStage">
+            <svg class="filter-definitions" aria-hidden="true" width="0" height="0">
+              <filter id="liquid-distortion" x="-15%" y="-15%" width="130%" height="130%">
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.012 0.018"
+                  numOctaves="2"
+                  seed="11"
+                  result="liquidNoise"
+                />
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="liquidNoise"
+                  scale="48"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                  result="displaced"
+                />
+                <feColorMatrix
+                  in="displaced"
+                  type="matrix"
+                  values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"
+                  result="redChannel"
+                />
+                <feColorMatrix
+                  in="displaced"
+                  type="matrix"
+                  values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"
+                  result="greenChannel"
+                />
+                <feColorMatrix
+                  in="displaced"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"
+                  result="blueChannel"
+                />
+                <feOffset in="redChannel" dx="-5" dy="0" result="redFringe" />
+                <feOffset in="blueChannel" dx="5" dy="0" result="blueFringe" />
+                <feBlend in="redFringe" in2="greenChannel" mode="screen" result="redGreen" />
+                <feBlend in="redGreen" in2="blueFringe" mode="screen" />
+              </filter>
+
+              <filter id="near-ghost-distortion" x="-35%" y="-35%" width="170%" height="170%">
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.018 0.045"
+                  numOctaves="2"
+                  seed="23"
+                  result="nearNoise"
+                />
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="nearNoise"
+                  scale="26"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                />
+              </filter>
+
+              <filter id="far-ghost-distortion" x="-45%" y="-45%" width="190%" height="190%">
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.009 0.028"
+                  numOctaves="3"
+                  seed="47"
+                  result="farNoise"
+                />
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="farNoise"
+                  scale="54"
+                  xChannelSelector="G"
+                  yChannelSelector="R"
+                />
+              </filter>
+            </svg>
+
+            <div class="screen-door" aria-hidden="true">
+              <div class="screen-door__panel screen-door__panel--left"></div>
+              <div class="screen-door__panel screen-door__panel--center"></div>
+              <div class="screen-door__panel screen-door__panel--right"></div>
+            </div>
+
+            <div class="scene scene--far-ghost" aria-hidden="true">
+              <h1 class="glitch-header">SIGNAL_STATUS</h1>
+              <p class="chrome-text">Reading configuration...<br />Awaiting input.</p>
+              <button class="neon-button" type="button" tabindex="-1">START</button>
+            </div>
+
+            <div class="scene scene--near-ghost" aria-hidden="true">
+              <h1 class="glitch-header">SIGNAL_STATUS</h1>
+              <p class="chrome-text">Reading configuration...<br />Awaiting input.</p>
+              <button class="neon-button" type="button" tabindex="-1">START</button>
+            </div>
+
+            <div class="scene scene--live" id="liveScene">
+              <h1 class="glitch-header" id="previewTitle">SIGNAL_STATUS</h1>
+              <p class="chrome-text" id="previewStatus">
+                Reading configuration...<br />Awaiting input.
+              </p>
+              <button class="neon-button" id="initializeButton" type="button">START</button>
+            </div>
+          </div>
+
+          <div class="preview-caption">
+            <span class="signal-dot"></span>
+            <span>TEXT LAYERS ARE LIVE. GHOSTS ARE OPTICAL COPIES.</span>
+          </div>
+        </section>
+
+        <aside class="editor-panel" aria-labelledby="editorHeading">
+          <div class="panel-heading">
+            <h2 id="editorHeading">INPUT_MATRIX</h2>
+            <span>NO BUILD STEP</span>
+          </div>
+
+          <form id="generatorForm">
+            <label class="field">
+              <span>System label</span>
+              <input id="titleInput" name="title" type="text" value="SIGNAL_STATUS" maxlength="34" autocomplete="off" />
+              <small>Near-fit labels shrink; longer labels wrap between words.</small>
+            </label>
+
+            <label class="field">
+              <span>Status message</span>
+              <textarea id="statusInput" name="status" rows="4" maxlength="180">Reading configuration...
+Awaiting input.</textarea>
+              <small>Line breaks become separate SVG text lines.</small>
+            </label>
+
+            <label class="field">
+              <span>Action label</span>
+              <input id="actionInput" name="action" type="text" value="START" maxlength="18" autocomplete="off" />
+              <small>The exported control is visual, not interactive.</small>
+            </label>
+
+            <label class="field">
+              <span>Initialized label</span>
+              <input id="initializedInput" name="initialized" type="text" value="READY" maxlength="18" autocomplete="off" />
+              <small>Shown after pressing the preview button.</small>
+            </label>
+
+            <label class="field">
+              <span>Font family</span>
+              <select id="fontFamilyInput" name="fontFamily">
+                <option value="iosevka">Iosevka Etoile</option>
+                <option value="ibm-plex">IBM Plex Mono</option>
+                <option value="jetbrains">JetBrains Mono</option>
+                <option value="fira-code">Fira Code</option>
+                <option value="system">System monospace</option>
+              </select>
+              <small>Applied to the preview and the generated SVG.</small>
+            </label>
+
+            <fieldset class="settings-group">
+              <legend>Typing effect</legend>
+
+              <label class="check-field">
+                <input id="typingEnabledInput" name="typingEnabled" type="checkbox" checked />
+                <span>Animate the selected text</span>
+              </label>
+
+              <label class="field field--compact">
+                <span>Section to type</span>
+                <select id="typingTargetInput" name="typingTarget">
+                  <option value="title">System label</option>
+                  <option value="status">Status message</option>
+                </select>
+              </label>
+
+              <label class="field field--compact">
+                <span class="range-label">
+                  <span>Typing speed</span>
+                  <output id="typingSpeedValue" for="typingSpeedInput">14 characters/sec</output>
+                </span>
+                <input id="typingSpeedInput" name="typingSpeed" type="range" min="1" max="30" value="14" step="1" />
+              </label>
+              <small class="settings-help">The preview restarts typing when these settings or text change.</small>
+            </fieldset>
+
+            <fieldset class="settings-group">
+              <legend>Cursor</legend>
+
+              <label class="check-field">
+                <input id="cursorVisibleInput" name="cursorVisible" type="checkbox" checked />
+                <span>Display cursor</span>
+              </label>
+
+              <label class="check-field" id="cursorBlinkField">
+                <input id="cursorBlinkInput" name="cursorBlink" type="checkbox" checked />
+                <span>Blink cursor</span>
+              </label>
+
+              <label class="field field--compact" id="cursorBlinkSpeedField">
+                <span class="range-label">
+                  <span>Blink speed</span>
+                  <output id="cursorBlinkSpeedValue" for="cursorBlinkSpeedInput">0.85s/cycle</output>
+                </span>
+                <input id="cursorBlinkSpeedInput" name="cursorBlinkSpeed" type="range" min="0.25" max="2" value="0.85" step="0.05" />
+              </label>
+            </fieldset>
+
+            <div class="button-row">
+              <button class="control-button control-button--primary" id="copySvgButton" type="button">COPY SVG</button>
+              <button class="control-button" id="downloadSvgButton" type="button">DOWNLOAD SVG</button>
+            </div>
+          </form>
+
+          <label class="field output-field" for="svgOutput">
+            <span>Generated SVG</span>
+            <textarea id="svgOutput" rows="9" readonly spellcheck="false"></textarea>
+          </label>
+
+          <p class="export-status" id="exportStatus" role="status" aria-live="polite">
+            Edit the fields to regenerate the SVG.
+          </p>
+
+          <div class="embed-card">
+            <div class="embed-card__label">README EMBED</div>
+            <code id="embedCode">![Terminal signal](./terminal-signal.svg)</code>
+          </div>
+        </aside>
+      </main>
+
+      <footer class="app-footer">
+        <span>PHOSPHOR GREEN // CHROMATIC ABERRATION // SIGNAL DRIFT</span>
+        <span>SVG OUTPUT IS SELF-CONTAINED</span>
+      </footer>
+    </div>
+
+    <p class="sr-only" id="systemAnnouncement" aria-live="polite"></p>
+    <script src="./app.js"></script>
+  </body>
+</html>
