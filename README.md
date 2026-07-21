@@ -1,9 +1,8 @@
 # README SVG set
 
-A small, dependency-free browser tool for creating CRT-style terminal graphics for README files.
+A small, dependency-free browser tool for creating graphics for README files.
 
 ## Usage
-
 Open [`terminal/index.html`](./terminal/index.html) in a browser, edit the text and effects, then copy or download the generated SVG.
 
 Add the exported image to a README with:
